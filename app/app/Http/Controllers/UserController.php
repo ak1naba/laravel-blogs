@@ -48,4 +48,11 @@ class UserController extends Controller
         return response()->json(['user'=>new UserResource($user)], 200);
     }
 
+    public function destroy(User $user)
+    {
+        $user->tokens()->delete();
+        $user->delete();
+
+        return response()->json(null, 204);
+    }
 }
