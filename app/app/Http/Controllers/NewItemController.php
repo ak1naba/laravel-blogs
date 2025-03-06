@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewItem\StoreRequest;
+use App\Http\Resources\NewItems\NewItemResource;
+use App\Http\Resources\NewItems\NewItemsCollection;
 use App\Models\NewItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewItemController extends Controller
 {
@@ -12,23 +16,38 @@ class NewItemController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $newItems = NewItem::where('user_id', Auth::id())->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'data' => new NewItemsCollection($newItems),
+            'links' => [
+                'prev' => $newItems->previousPageUrl(),
+                'next' => $newItems->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $newItems->currentPage(),
+                'from' => $newItems->firstItem(),
+                'last_page' => $newItems->lastPage(),
+                'per_page' => $newItems->perPage(),
+                'to' => $newItems->lastItem(),
+                'total' => $newItems->total(),
+            ],
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $newItem = NewItem::create([
+           'title'=>$request->title,
+           'text'=>$request->text,
+           'published'=>$request->published,
+           'user_id'=>Auth::id(),
+        ]);
+
+        return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
 
     /**
@@ -36,7 +55,7 @@ class NewItemController extends Controller
      */
     public function show(NewItem $newItem)
     {
-        //
+        return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
 
     /**

@@ -45,7 +45,7 @@ class UserController extends Controller
         }
 
         $user->save();
-        return response()->json(['user'=>new UserResource($user)], 200);
+        return response()->json(['message'=>'Данные пользователя обновлены','user'=>new UserResource($user)], 200);
     }
 
     public function destroy(User $user)
@@ -53,6 +53,6 @@ class UserController extends Controller
         $user->tokens()->delete();
         $user->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message'=>'Пользователь удален'], 204);
     }
 }
