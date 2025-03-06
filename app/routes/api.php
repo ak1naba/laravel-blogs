@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\WriterAccess;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminAccess;
+use App\Http\Middleware\NewItemOwning;
 
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -23,7 +24,12 @@ Route::group(['middleware'=>'auth:sanctum'], function (){
     Route::middleware([WriterAccess::class])->prefix('/posts')->group(function () {
         Route::get('/', [NewItemController::class, 'index']);
         Route::post('/', [NewItemController::class, 'store']);
-        Route::get('/{new_item}', [NewItemController::class, 'show']);
+        Route::middleware([NewItemOwning::class])->group(function () {
+            Route::get('/{new_item}', [NewItemController::class, 'show']);
+            Route::put('/{new_item}', [NewItemController::class, 'update']);
+            Route::delete('/{new_item}', [NewItemController::class, 'update']);
+        });
+
     });
 
 });

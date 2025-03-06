@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('new_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('title');
             $table->text('text');
             $table->boolean('published')->default(false);

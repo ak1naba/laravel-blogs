@@ -69,9 +69,15 @@ class NewItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, NewItem $newItem)
+    public function update(StoreRequest $request, NewItem $newItem)
     {
-        //
+        $newItem->update([
+            'title'=>$request->title,
+            'text'=>$request->text,
+            'published'=>$request->published,
+        ]);
+
+        return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
 
     /**
@@ -79,6 +85,8 @@ class NewItemController extends Controller
      */
     public function destroy(NewItem $newItem)
     {
-        //
+        $newItem->delete();
+
+        return response()->json(['message' => 'Post is deleted'], 200);
     }
 }
