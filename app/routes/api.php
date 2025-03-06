@@ -29,7 +29,8 @@ Route::group(['middleware'=>'auth:sanctum'], function (){
             Route::put('/{new_item}', [NewItemController::class, 'update']);
             Route::delete('/{new_item}', [NewItemController::class, 'update']);
         });
-
     });
 
+    Route::get('/news', [NewItemController::class, 'getNewItems']);
+    Route::get('/news/{new_item}', [NewItemController::class, 'getNewItem']);
 });

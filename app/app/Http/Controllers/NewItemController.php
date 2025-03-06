@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewItem\StoreRequest;
+use App\Http\Resources\NewItems\NewItemExtendResource;
 use App\Http\Resources\NewItems\NewItemResource;
 use App\Http\Resources\NewItems\NewItemsCollection;
+use App\Http\Resources\NewItems\NewItemsOurCollection;
 use App\Models\NewItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,13 +61,6 @@ class NewItemController extends Controller
         return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(NewItem $newItem)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -88,5 +84,36 @@ class NewItemController extends Controller
         $newItem->delete();
 
         return response()->json(['message' => 'Post is deleted'], 200);
+    }
+
+    public function getNewItems()
+    {
+        $newItems = NewItem::where('published', true)->with('user')->paginate(10);
+
+        return response()->json([
+            'data' => new NewItemsOurCollection($newItems),
+            'links' => [
+                'prev' => $newItems->previousPageUrl(),
+                'next' => $newItems->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $newItems->currentPage(),
+                'from' => $newItems->firstItem(),
+                'last_page' => $newItems->lastPage(),
+                'per_page' => $newItems->perPage(),
+                'to' => $newItems->lastItem(),
+                'total' => $newItems->total(),
+            ],
+        ], 200);
+    }
+
+    public function getNewItem(NewItem $newItem)
+    {
+        if(!$newItem->published){
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        return response()->json(['newItem' => new NewItemExtendResource($newItem->loadMissing('user'))], 200);
+
     }
 }

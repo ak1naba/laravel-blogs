@@ -5,7 +5,7 @@ namespace App\Http\Resources\NewItems;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NewItemLightResource extends JsonResource
+class NewItemExtendResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +16,7 @@ class NewItemLightResource extends JsonResource
     {
         return [
             'title' => $this->title,
+            'text' => $this->title,
             'author' => $this->user ? $this->user->name : null,
         ];
     }
