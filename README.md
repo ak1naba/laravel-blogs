@@ -1,8 +1,8 @@
-Laravel Blogs
+# Laravel Blogs
 
-Стек: [php, laravel, postgres. nginx, docker, docker-compose]
+## Стек: [php, laravel, postgres. nginx, docker, docker-compose]
 
-Запуск
+## Запуск
 ```shell
 docker-compose up -d --build
 
@@ -17,7 +17,7 @@ php artisan key:gen
 php artisan migrate --seed
 ```
 
-О сервисе
+## О сервисе
 Сервис контенеризирован, в контейнере содержатся: Laravel, Postgres, Nginx.
 Запуск описан выше.
 Может возникнуть проблема с ращрешениями файлов, устарняла так
@@ -26,17 +26,17 @@ php artisan migrate --seed
 sudo chmod -R 777 laravel-blogs/
 ```
 
-Пользователь
+## Пользователь
 admin@mail.ru - qweqweqwe
 
-Задание
+## Задание
 Выполнил все, кроме вебсокетов.
 Проект запускается по адресу: http://localhost:8000
 
-О системе и инструментах
+## О системе и инструментах
 OS Ubuntu 24.04.1 LTS
 IDE PhpStorm 2024.1.2
 
-Для связи
+## Для связи
 https://t.me/ak1naba
 
