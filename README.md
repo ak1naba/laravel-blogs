@@ -14,5 +14,10 @@ composer install
 
 php artisan key:gen
 
-php artisan migrate
+php artisan migrate --seed
 ```
+
+Пользователь
+admin@mail.ru - qweqweqwe
+
+
