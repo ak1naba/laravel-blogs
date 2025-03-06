@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Resources\Users\UsersCollection;
@@ -30,6 +31,18 @@ class UserController extends Controller
                 'total' => $users->total(),
             ],
         ], 200);
+    }
+
+    public function create(CreateUserRequest $request)
+    {
+        $user = User::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
+        return response()->json(['message' => 'User created', 'user' => new UserResource($user)], 201);
     }
 
     public function update(User $user, UpdateUserRequest $request)
