@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\NewItem\PostCreateDTO;
+use App\DTOs\NewItem\PostUpdateDTO;
 use App\Http\Requests\NewItem\StoreRequest;
 use App\Http\Resources\NewItems\NewItemExtendResource;
 use App\Http\Resources\NewItems\NewItemResource;
@@ -43,12 +45,8 @@ class NewItemController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $newItem = NewItem::create([
-           'title'=>$request->title,
-           'text'=>$request->text,
-           'published'=>$request->published,
-           'user_id'=>Auth::id(),
-        ]);
+        $newItemData = new PostCreateDTO($request->all());
+        $newItem = NewItem::create($newItemData->toArray());
 
         return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
@@ -67,11 +65,8 @@ class NewItemController extends Controller
      */
     public function update(StoreRequest $request, NewItem $newItem)
     {
-        $newItem->update([
-            'title'=>$request->title,
-            'text'=>$request->text,
-            'published'=>$request->published,
-        ]);
+        $newItemData = new PostUpdateDTO($request->all());
+        $newItem->update($newItemData->toArray());
 
         return response()->json(['newItem' => new NewItemResource($newItem)], 200);
     }
