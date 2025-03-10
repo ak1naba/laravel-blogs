@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\UserCreateDTO;
+use App\DTOs\UserUpdateDTO;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\Users\UserResource;
@@ -36,22 +37,16 @@ class UserController extends Controller
 
     public function create(CreateUserRequest $request)
     {
-        $user = User::create((new UserCreateDTO($request->all()))->toArray());
+        $userData = new UserCreateDTO($request->all());
+        $user = User::create($userData->toArray());
 
         return response()->json(['message' => 'User created', 'user' => new UserResource($user)], 201);
     }
 
     public function update(User $user, UpdateUserRequest $request)
     {
-        if ($request->email){
-            $user->email = $request->email;
-        }
-        if ($request->password){
-            $user->password = Hash::make($request->password);
-        }
-        if ($request->role){
-            $user->role = $request->role;
-        }
+        $userData = new UserUpdateDTO($request->all());
+        $user->update($userData->toArray());
 
         $user->save();
         return response()->json(['message'=>'Данные пользователя обновлены','user'=>new UserResource($user)], 200);
