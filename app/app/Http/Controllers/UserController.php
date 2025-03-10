@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DTOs\UserCreateDTO;
-use App\DTOs\UserUpdateDTO;
+use App\DTOs\User\UserCreateDTO;
+use App\DTOs\User\UserUpdateDTO;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\Users\UserResource;
 use App\Http\Resources\Users\UsersCollection;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
