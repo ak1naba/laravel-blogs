@@ -4,18 +4,26 @@ namespace App\DTOs;
 
 class UserCreateDTO
 {
-    public string $email;
-    public string $name;
-    public string $password;
-    public string $role;
+    private string $email;
+    private string $name;
+    private string $password;
+    private string $role;
 
 
     public function __construct(array $data)
     {
-        $this->email = $data['email'] ?? '';
-        $this->name = $data['name'] ?? '';
-        $this->password = $data['password'] ?? '';
-        $this->role = $data['role'] ?? '';
+        $this->email = $data['email'] ?? null;
+        $this->name = $data['name'] ?? null;
+        $this->password = $data['password'] ?? null;
+        $this->role = $data['role'] ?? null;
     }
-
+    public function toArray(): array
+    {
+        return [
+            'email' => $this->email,
+            'name' => $this->name,
+            'password' => $this->password, // Чистый пароль (захешируется в модели)
+            'role' => $this->role,
+        ];
+    }
 }

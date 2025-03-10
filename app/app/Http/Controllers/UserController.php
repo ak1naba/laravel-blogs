@@ -36,7 +36,7 @@ class UserController extends Controller
 
     public function create(CreateUserRequest $request)
     {
-        $user = User::create((array) new UserCreateDTO($request->all()));
+        $user = User::create((new UserCreateDTO($request->all()))->toArray());
 
         return response()->json(['message' => 'User created', 'user' => new UserResource($user)], 201);
     }
