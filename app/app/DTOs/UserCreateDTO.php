@@ -22,7 +22,7 @@ class UserCreateDTO
         return [
             'email' => $this->email,
             'name' => $this->name,
-            'password' => $this->password, // Чистый пароль (захешируется в модели)
+            'password' => $this->password,
             'role' => $this->role,
         ];
     }
