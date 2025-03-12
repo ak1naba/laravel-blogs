@@ -17,6 +17,9 @@ WORKDIR /var/www
 # Скопируем файлы Laravel проекта
 COPY ./app/ .
 
+RUN docker-php-ext-install pcntl
+RUN docker-php-ext-configure pcntl --enable-pcntl
+
 # Установим права доступа
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage

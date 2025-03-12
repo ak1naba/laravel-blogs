@@ -14,6 +14,8 @@ services:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - laravel
+    ports:
+      - "9001:9001"
 
   webserver:
     image: nginx:alpine
