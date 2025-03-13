@@ -15,7 +15,7 @@ services:
     networks:
       - laravel
     ports:
-      - "9001:9001"
+      - "8080:8080"
 
   webserver:
     image: nginx:alpine
