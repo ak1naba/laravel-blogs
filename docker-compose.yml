@@ -15,6 +15,20 @@ services:
     networks:
       - laravel
 
+  reverb:
+    image: laravel-app
+    container_name: laravel-reverb
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan reverb:start
+    networks:
+      - laravel
+    depends_on:
+      - app
+    ports:
+      - "6001:6001"
+
+
   webserver:
     image: nginx:alpine
     container_name: laravel-webserver
