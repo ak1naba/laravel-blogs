@@ -17,7 +17,6 @@ services:
     ports:
       - '6001:6001'
 
-
   webserver:
     image: nginx:alpine
     container_name: laravel-webserver
