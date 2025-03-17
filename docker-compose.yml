@@ -14,37 +14,9 @@ services:
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - laravel
-    environment:
-      - REVERB_APP_ID=${REVERB_APP_ID}
-      - REVERB_APP_KEY=${REVERB_APP_KEY}
-      - REVERB_APP_SECRET=${REVERB_APP_SECRET}
-      - REVERB_HOST=${REVERB_HOST}
-      - REVERB_PORT=${REVERB_PORT}
-      - REVERB_PATH=${REVERB_PATH}
-      - REVERB_SCHEME=${REVERB_SCHEME}
-      - REVERB_DEBUG=${REVERB_DEBUG}
-
-  reverb:
-    image: laravel-app
-    container_name: laravel-reverb
-    restart: unless-stopped
-    working_dir: /var/www
-    command: php artisan reverb:start
-    networks:
-      - laravel
-    depends_on:
-      - app
     ports:
-      - "6001:6001"
-    environment:
-      - REVERB_APP_ID=${REVERB_APP_ID}
-      - REVERB_APP_KEY=${REVERB_APP_KEY}
-      - REVERB_APP_SECRET=${REVERB_APP_SECRET}
-      - REVERB_HOST=${REVERB_HOST}
-      - REVERB_PORT=${REVERB_PORT}
-      - REVERB_PATH=${REVERB_PATH}
-      - REVERB_SCHEME=${REVERB_SCHEME}
-      - REVERB_DEBUG=${REVERB_DEBUG}
+      - '6001:6001'
+
 
   webserver:
     image: nginx:alpine
