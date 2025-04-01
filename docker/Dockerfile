@@ -1,12 +1,17 @@
-# docker/Dockerfile
 FROM php:8.2-fpm
 
-# Установим необходимые пакеты для PostgreSQL и Composer
+# Установим необходимые пакеты для PostgreSQL, MySQL и Composer
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    git \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
     unzip \
-    && docker-php-ext-install pdo pdo_pgsql
+    git \
+    mariadb-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_pgsql pdo_mysql
 
 # Установим Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

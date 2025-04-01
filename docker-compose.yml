@@ -27,9 +27,9 @@ services:
     networks:
       - laravel
 
-  db:
+  db_postgres:
     image: postgres:13
-    container_name: laravel-db
+    container_name: laravel-db-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}
@@ -38,7 +38,23 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - dbdata_postgres:/var/lib/postgresql/data
+    networks:
+      - laravel
+
+  db_mysql:
+    image: mysql:8
+    container_name: laravel-db-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata_mysql:/var/lib/mysql
     networks:
       - laravel
 
@@ -47,5 +63,7 @@ networks:
     driver: bridge
 
 volumes:
-  dbdata:
+  dbdata_postgres:
+    driver: local
+  dbdata_mysql:
     driver: local
