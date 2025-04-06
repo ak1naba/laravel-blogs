@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             $users->push($user);
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             NewItem::create([
                 'user_id' => $writer1->id,
                 'title' => "Новость #{$i}",
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        for ($i = 11; $i <= 20; $i++) {
+        for ($i = 1001; $i <= 2000; $i++) {
             NewItem::create([
                 'user_id' => $writer2->id,
                 'title' => "Новость #{$i}",
