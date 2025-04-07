@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        // Писатели
         $writer1 = User::create([
             'email' => 'writer1@mail.ru',
             'password' => Hash::make('qweqweqwe'),
@@ -37,34 +36,56 @@ class DatabaseSeeder extends Seeder
             'role' => 'writer'
         ]);
 
-        // Пользователи
-        $users = collect();
         for ($i = 1; $i <= 10; $i++) {
-            $user = User::create([
+            User::create([
                 'email' => "user{$i}@mail.ru",
                 'password' => Hash::make('qweqweqwe'),
                 'name' => "User {$i}",
                 'role' => 'user'
             ]);
-            $users->push($user);
         }
 
-        for ($i = 1; $i <= 1000; $i++) {
-            NewItem::create([
+        // Вставка новостей writer1 через модель пакетами
+        $batchSize = 1000;
+        $news = [];
+
+        for ($i = 1; $i <= 50000; $i++) {
+            $news[] = [
                 'user_id' => $writer1->id,
                 'title' => "Новость #{$i}",
                 'text' => "Текст новости номер {$i}.",
                 'published' => (bool) rand(0, 1),
-            ]);
+            ];
+
+            if (count($news) === $batchSize) {
+                NewItem::insert($news);
+                $news = [];
+            }
         }
 
-        for ($i = 1001; $i <= 2000; $i++) {
-            NewItem::create([
+        if (!empty($news)) {
+            NewItem::insert($news);
+        }
+
+        // Вставка новостей writer2 через модель
+        $news = [];
+
+        for ($i = 50001; $i <= 100000; $i++) {
+            $news[] = [
                 'user_id' => $writer2->id,
                 'title' => "Новость #{$i}",
                 'text' => "Текст новости номер {$i}.",
                 'published' => (bool) rand(0, 1),
-            ]);
+            ];
+
+            if (count($news) === $batchSize) {
+                NewItem::insert($news);
+                $news = [];
+            }
+        }
+
+        if (!empty($news)) {
+            NewItem::insert($news);
         }
     }
 }
